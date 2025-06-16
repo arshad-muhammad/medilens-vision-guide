@@ -1,73 +1,130 @@
-# Welcome to your Lovable project
+MediLens – AI Medicine Identifier & Visual Guide
 
-## Project info
+MediLens is a modern SaaS web application that allows users to upload medicine images (tablets, capsules, syrups, etc.) and instantly receive:
 
-**URL**: https://lovable.dev/projects/129e18b8-83cc-4c6a-9c2e-7854cdb17227
+Verified drug information from openFDA
 
-## How can I edit this code?
+AI-generated, easy-to-understand summaries
 
-There are several ways of editing your application.
+Visual charts for dosage schedules and side effect frequencies
 
-**Use Lovable**
+Alternative medicines with visual comparisons
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/129e18b8-83cc-4c6a-9c2e-7854cdb17227) and start prompting.
 
-Changes made via Lovable will be committed automatically to this repo.
+This platform combines Gemini 2.0 Flash API (for AI image recognition and explanation generation) with the openFDA API (for verified medical data), providing a fast, accurate, and beautifully visualized user experience.
 
-**Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🚀 Features
 
-Follow these steps:
+📸 Image Upload: Upload medicine images (drag & drop or click to select).
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+🧠 AI Recognition: Gemini 2.0 Flash processes the image to extract the medicine name and details.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+🗂 Verified Data: Uses openFDA to fetch regulatory-approved drug information.
 
-# Step 3: Install the necessary dependencies.
-npm i
+✍️ Human-Friendly Summaries: Gemini converts technical data into clear, simple explanations.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+📊 Visual Charts:
 
-**Edit a file directly in GitHub**
+Dosage timelines
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Side effect frequency charts
 
-**Use GitHub Codespaces**
+Alternatives comparison tables
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+🎠 Alternatives Carousel: Visually explore similar medicines.
 
-This project is built with:
+🕘 Search History: View and revisit previously searched medicines.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+📱 Responsive UI: Mobile-first, smooth animations, soft design, dark mode supported.
 
-## How can I deploy this project?
+⚠️ Warnings & Alerts: Visual indication of critical precautions.
 
-Simply open [Lovable](https://lovable.dev/projects/129e18b8-83cc-4c6a-9c2e-7854cdb17227) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+🛠️ Tech Stack
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+AI Integration: Gemini 2.0 Flash API (Google AI)
+
+Medical Database: openFDA API
+
+Visualization Tools: Lovable’s built-in visual components (charts, carousels, cards)
+
+
+
+---
+
+📂 Pages & Structure
+
+Landing Page: Upload button, search bar, modern visuals.
+
+Upload Page: Drag & drop, image preview, loading animation.
+
+Results Page:
+
+Medicine image
+
+Gemini-generated explanations
+
+Dosage charts, side effect charts
+
+Alternatives carousel
+
+
+History Page: Previous searches with thumbnails.
+
+About Page: API sources, disclaimers, contact form.
+
+
+
+---
+
+🔗 API References
+
+Gemini 2.0 Flash API
+
+openFDA API
+
+
+
+---
+
+🚦 Usage Disclaimer
+
+MediLens is intended for informational and educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for medical questions.
+
+
+---
+
+📋 Getting Started
+
+1. Set up Lovable and connect Gemini 2.0 Flash API.
+
+
+2. Configure API calls to openFDA for real-time medicine data.
+
+
+3. Integrate Gemini’s responses to Lovable’s visual components.
+
+
+4. Launch the app on the web.
+
+
+
+
+---
+
+🎨 UI/UX Notes
+
+Mobile responsive
+
+Soft shadows, large rounded corners
+
+Smooth page transitions
+
+Visual charts should be colorful and easy to read
