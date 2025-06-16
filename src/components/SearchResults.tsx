@@ -11,6 +11,7 @@ interface SearchResult {
   medicine_type: string;
   identification_confidence: number;
   search_date: string;
+  medicine_search_id?: string;
   results?: any;
 }
 
@@ -28,7 +29,7 @@ const SearchResults = ({ results, query, onClear }: SearchResultsProps) => {
       navigate('/results', { 
         state: { 
           analysisResult: {
-            searchId: result.medicine_search_id,
+            searchId: result.medicine_search_id || result.id,
             extracted: result.results.extracted || {},
             fdaData: result.results.fda_data || null,
             summary: result.results.summary || {},
