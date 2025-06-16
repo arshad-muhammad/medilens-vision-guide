@@ -9,6 +9,7 @@ interface SearchResult {
   medicine_type: string;
   identification_confidence: number;
   search_date: string;
+  medicine_search_id?: string;
   results?: any;
 }
 
@@ -26,7 +27,9 @@ export const useMedicineSearch = () => {
     setIsSearching(true);
     
     try {
-      // Search in search history first
+      console.log('Searching for:', query);
+      
+      // Search in search history with a more flexible pattern
       const { data: historyData, error: historyError } = await supabase
         .from('search_history')
         .select(`
@@ -37,12 +40,16 @@ export const useMedicineSearch = () => {
           search_date,
           medicine_search_id
         `)
-        .ilike('medicine_name', `%${query}%`)
+        .or(`medicine_name.ilike.%${query}%,medicine_type.ilike.%${query}%`)
         .order('search_date', { ascending: false })
-        .limit(10);
+        .limit(20);
+
+      console.log('Search history results:', historyData);
+      console.log('Search history error:', historyError);
 
       if (historyError) {
         console.error('Search history error:', historyError);
+        throw historyError;
       }
 
       // If we have results from history, get the detailed results
@@ -51,6 +58,8 @@ export const useMedicineSearch = () => {
           .map(item => item.medicine_search_id)
           .filter(Boolean);
 
+        console.log('Found search IDs:', searchIds);
+
         let detailedResults = historyData;
         
         if (searchIds.length > 0) {
@@ -58,6 +67,9 @@ export const useMedicineSearch = () => {
             .from('medicine_searches')
             .select('id, results')
             .in('id', searchIds);
+
+          console.log('Medicine searches results:', searchData);
+          console.log('Medicine searches error:', searchError);
 
           if (!searchError && searchData) {
             // Merge the results
@@ -73,25 +85,48 @@ export const useMedicineSearch = () => {
 
         setSearchResults(detailedResults);
         
-        if (detailedResults.length > 0) {
+        toast({
+          title: "Search Complete",
+          description: `Found ${detailedResults.length} result(s) for "${query}"`,
+        });
+      } else {
+        setSearchResults([]);
+        
+        // Also search in medicine_searches table directly in case there's data there
+        const { data: directSearchData, error: directSearchError } = await supabase
+          .from('medicine_searches')
+          .select('*')
+          .or(`query.ilike.%${query}%`)
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        console.log('Direct search results:', directSearchData);
+        
+        if (!directSearchError && directSearchData && directSearchData.length > 0) {
+          // Convert medicine_searches results to SearchResult format
+          const convertedResults = directSearchData.map(item => ({
+            id: item.id,
+            medicine_name: item.results?.extracted?.medicine_name || item.query || 'Unknown Medicine',
+            medicine_type: item.results?.extracted?.medicine_type || 'Unknown',
+            identification_confidence: item.results?.confidence || 0,
+            search_date: item.created_at,
+            medicine_search_id: item.id,
+            results: item.results
+          }));
+          
+          setSearchResults(convertedResults);
+          
           toast({
             title: "Search Complete",
-            description: `Found ${detailedResults.length} result(s) for "${query}"`,
+            description: `Found ${convertedResults.length} result(s) for "${query}"`,
           });
         } else {
           toast({
             title: "No Results",
-            description: `No medicines found for "${query}"`,
+            description: `No medicines found for "${query}". Try uploading an image for identification.`,
             variant: "destructive",
           });
         }
-      } else {
-        setSearchResults([]);
-        toast({
-          title: "No Results",
-          description: `No medicines found for "${query}". Try uploading an image for identification.`,
-          variant: "destructive",
-        });
       }
 
     } catch (error) {
